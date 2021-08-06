@@ -36,6 +36,7 @@ import { ExploreGraphNGPanel } from './ExploreGraphNGPanel';
 import { NodeGraphContainer } from './NodeGraphContainer';
 import { ResponseErrorContainer } from './ResponseErrorContainer';
 import { TraceViewContainer } from './TraceView/TraceViewContainer';
+import FlameGraphRenderer from './FlameGraphRenderer';
 
 const getStyles = stylesFactory((theme: GrafanaTheme) => {
   return {
@@ -251,12 +252,26 @@ export class Explore extends React.PureComponent<Props, ExploreState> {
     );
   }
 
+  renderFlameGraphPanel() {
+    const { queryResponse } = this.props;
+    // @ts-ignore
+    return <FlameGraphRenderer data={queryResponse} />;
+  }
+
   getNodeGraphDataFrames = memoizeOne((frames: DataFrame[]) => {
     // TODO: this not in sync with how other types of responses are handled. Other types have a query response
     //  processing pipeline which ends up populating redux state with proper data. As we move towards more dataFrame
     //  oriented API it seems like a better direction to move such processing into to visualisations and do minimal
     //  and lazy processing here. Needs bigger refactor so keeping nodeGraph and Traces as they are for now.
     return frames.filter((frame) => frame.meta?.preferredVisualisationType === 'nodeGraph');
+  });
+
+  getFlameGraphDataFrames = memoizeOne((frames: DataFrame[]) => {
+    // TODO: this not in sync with how other types of responses are handled. Other types have a query response
+    //  processing pipeline which ends up populating redux state with proper data. As we move towards more dataFrame
+    //  oriented API it seems like a better direction to move such processing into to visualisations and do minimal
+    //  and lazy processing here. Needs bigger refactor so keeping flameGraph and Traces as they are for now.
+    return frames.filter((frame) => frame.meta?.preferredVisualisationType === 'flameGraph');
   });
 
   renderTraceViewPanel() {
@@ -284,6 +299,7 @@ export class Explore extends React.PureComponent<Props, ExploreState> {
       showLogs,
       showTrace,
       showNodeGraph,
+      showFlameGraph,
     } = this.props;
     const { openDrawer } = this.state;
     const styles = getStyles(theme);
@@ -330,6 +346,7 @@ export class Explore extends React.PureComponent<Props, ExploreState> {
                           {showLogs && <ErrorBoundaryAlert>{this.renderLogsPanel(width)}</ErrorBoundaryAlert>}
                           {showNodeGraph && <ErrorBoundaryAlert>{this.renderNodeGraphPanel()}</ErrorBoundaryAlert>}
                           {showTrace && <ErrorBoundaryAlert>{this.renderTraceViewPanel()}</ErrorBoundaryAlert>}
+                          {showFlameGraph && <ErrorBoundaryAlert>{this.renderFlameGraphPanel()}</ErrorBoundaryAlert>}
                         </>
                       )}
                       {showRichHistory && (
@@ -377,6 +394,7 @@ function mapStateToProps(state: StoreState, { exploreId }: ExploreProps) {
     absoluteRange,
     queryResponse,
     showNodeGraph,
+    showFlameGraph,
     loading,
   } = item;
 
@@ -396,6 +414,7 @@ function mapStateToProps(state: StoreState, { exploreId }: ExploreProps) {
     showTable,
     showTrace,
     showNodeGraph,
+    showFlameGraph,
     loading,
   };
 }

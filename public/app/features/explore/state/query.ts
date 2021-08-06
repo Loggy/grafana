@@ -729,6 +729,7 @@ export const processQueryResponse = (
     tableResult,
     traceFrames,
     nodeGraphFrames,
+    flameGraphFrames,
   } = response;
 
   if (error) {
@@ -773,5 +774,6 @@ export const processQueryResponse = (
     showTable: !!tableResult,
     showTrace: !!traceFrames.length,
     showNodeGraph: !!nodeGraphFrames.length,
+    showFlameGraph: !!flameGraphFrames.length,
   };
 };

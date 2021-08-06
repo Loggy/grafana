@@ -75,6 +75,7 @@ const dummyProps: Props = {
   showTable: true,
   showTrace: true,
   showNodeGraph: true,
+  showFlameGraph: true,
   splitOpen: (() => {}) as any,
 };
 

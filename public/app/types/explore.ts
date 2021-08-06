@@ -149,6 +149,7 @@ export interface ExploreItemState {
   showTable?: boolean;
   showTrace?: boolean;
   showNodeGraph?: boolean;
+  showFlameGraph?: boolean;
 
   /**
    * We are using caching to store query responses of queries run from logs navigation.
@@ -200,6 +201,7 @@ export interface ExplorePanelData extends PanelData {
   logsFrames: DataFrame[];
   traceFrames: DataFrame[];
   nodeGraphFrames: DataFrame[];
+  flameGraphFrames: DataFrame[];
   graphResult: DataFrame[] | null;
   tableResult: DataFrame | null;
   logsResult: LogsModel | null;

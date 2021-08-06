@@ -22,7 +22,7 @@ export enum DataTopic {
 }
 
 // Should be kept in sync with grafana-plugin-sdk-go/data/frame_meta.go
-export type PreferredVisualisationType = 'graph' | 'table' | 'logs' | 'trace' | 'nodeGraph';
+export type PreferredVisualisationType = 'graph' | 'table' | 'logs' | 'trace' | 'nodeGraph' | 'flameGraph';
 
 /**
  * @public
